@@ -20,6 +20,7 @@ public class CameraMovement : MonoBehaviour
     {
         ZoomCamera();
         RotateCamera();
+        transform.position = transform.localRotation * _offset + _targetEarth.position;        
     }
 
     private void ZoomCamera()
@@ -28,17 +29,17 @@ public class CameraMovement : MonoBehaviour
             _offset.z += _zoomSpeed;
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             _offset.z -= _zoomSpeed;
+
+        _offset.z = Mathf.Clamp(_offset.z, -400, -200);        
     }
 
     private void RotateCamera()
     {
         if (Input.GetMouseButton(0))
         {
-            _offsetX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * _sensitivity;
+            _offsetX += Input.GetAxis("Mouse X") * _sensitivity;
             _offsetY += Input.GetAxis("Mouse Y") * _sensitivity;
-            transform.localEulerAngles = new Vector3(-_offsetY, _offsetX, 0);
+            transform.localEulerAngles = new Vector3(-_offsetY, _offsetX, 0); 
         }
-        _offset.z = Mathf.Clamp(_offset.z, -400, -200);
-        transform.position = transform.localRotation * _offset + _targetEarth.position;
     }
 }

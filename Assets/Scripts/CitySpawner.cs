@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class CitySpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject _template;
+    [SerializeField] private float _earthRadius;
+    [SerializeField] private int _numberCities;
+    [SerializeField] private List<GameObject> _cities;
+    public List<GameObject> GetListGeneratedCities => _cities;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        for (int i = _numberCities; i > 0; i--)
+        {
+            _cities.Add(CreateCity(_template, _earthRadius));
+        }     
+    } 
+
+    private GameObject CreateCity(GameObject cityTemplate, float earthRadius)
+    {
+        GameObject city;
+        city = Instantiate(cityTemplate);
+        city.transform.position = Random.onUnitSphere * earthRadius;
+        city.GetComponent<AssaultPolicy>().RocketLaunch += city.GetComponent<RocketLaunch>().Launch;
+        return city;
     }
 }

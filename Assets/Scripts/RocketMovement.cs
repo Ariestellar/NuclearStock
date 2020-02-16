@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketMovement : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
+{        
+    [SerializeField] private float _speed;
+    [SerializeField] private Vector3 _target;
         
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        
+        Fly(_target);
+    }
+
+    private void Fly(Vector3 target)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target, _speed);
+    }
+
+    public void SetTarget(Vector3 target)
+    {
+        _target = target;
     }
 }
