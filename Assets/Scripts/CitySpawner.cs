@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CitySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject _template;
+    [SerializeField] private GameObject _template;  
     [SerializeField] private float _earthRadius;
     [SerializeField] private int _numberCities;
     [SerializeField] private List<GameObject> _cities;
@@ -23,7 +23,8 @@ public class CitySpawner : MonoBehaviour
         GameObject city;
         city = Instantiate(cityTemplate);
         city.transform.position = Random.onUnitSphere * earthRadius;
-        city.GetComponent<AssaultPolicy>().RocketLaunch += city.GetComponent<RocketLaunch>().Launch;
+        city.GetComponent<RocketLaunch>().Init();
+        city.GetComponent<AssaultPolicy>().Init();
         return city;
     }
 }

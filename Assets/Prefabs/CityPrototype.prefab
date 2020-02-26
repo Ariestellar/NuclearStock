@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5986204545577797470}
   - component: {fileID: 4719970372466570453}
   - component: {fileID: -8492955409631269934}
+  - component: {fileID: -3394455600127806254}
   m_Layer: 0
   m_Name: CityPrototype
   m_TagString: Untagged
@@ -109,6 +110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rocketTemplate: {fileID: 4765980873279503687, guid: af72f2280dcf36c488581824ecb77d70,
     type: 3}
+  _assaultPolicy: {fileID: 0}
 --- !u!114 &-8492955409631269934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,6 +124,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataCities: {fileID: 0}
-  _currentTimerCharge: 0
   _timerChargeDefault: 5
-  _targetAttack: {fileID: 0}
+  _timerTemp: {fileID: 49772808257816050, guid: 1cd41ca03aa6fd84aa2e28b55aecced5,
+    type: 3}
+--- !u!114 &-3394455600127806254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370207089339274643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97c7f65fe66f3cd4cb714b035b33e41f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

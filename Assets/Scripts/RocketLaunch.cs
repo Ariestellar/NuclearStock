@@ -9,52 +9,25 @@ public class RocketLaunch : MonoBehaviour
     [SerializeField] private AssaultPolicy _assaultPolicy;
 
     private GameObject _rocket;
-    private float _startHeight = 10;
 
-    private Vector3 _direction;
-    private Vector3 _pointLaunchRocket;
-    private Transform _earth;
-
-    private void Awake()
-    {
-        Init();
+    public void Init()
+    { 
+        _assaultPolicy = GetComponent<AssaultPolicy>();        
+        _assaultPolicy.RocketLaunch += Launch;
     }
 
-    private void Init()
+    private void Launch(GameObject target)
     {
-        _earth = FindObjectOfType<CitySpawner>().transform;
-        _assaultPolicy = GetComponent<AssaultPolicy>();
+        _rocket = CreateRocket();        
+        RocketMovement rocketMovement = _rocket.GetComponent<RocketMovement>();        
+        rocketMovement.Init(target, transform.position);
+
+        rocketMovement.RocketHitTarget += _rocket.GetComponent<RocketCondition>().Destruction;
+        rocketMovement.RocketHitTarget += target.GetComponent<CityCondition>().Destruction;
     }
 
-    public void Launch(Transform Target)
-    {        
-        _rocket = CreateRocket(GetPointLaunchRocket(_startHeight));
-        //_rocket.transform.position = GetRocketFlightDirection(Target);transform.position assign attempt for 'RocketPrototype(Clone)' is not valid. Input position is { NaN, NaN, NaN }
-        _rocket.GetComponent<RocketMovement>().SetTarget(Target.transform.position);
-    }
-
-    private GameObject CreateRocket(Vector3 pointLaunchRocket)
+    private GameObject CreateRocket()
     {
-        GameObject rocket = Instantiate(_rocketTemplate);
-        rocket.transform.position = pointLaunchRocket;
-        return rocket;
-    }
-
-    private Vector3 GetPointLaunchRocket(float startHeight)
-    {
-        return transform.position + GetDirection(transform, _earth) * startHeight;
-    }
-
-    private Vector3 GetRocketFlightDirection(Transform target)
-    {
-        return GetDirection(target, transform);
-    }
-
-    private Vector3 GetDirection(Transform whereTo, Transform whereFrom)
-    {
-        Vector3 heading = whereTo.position - whereFrom.transform.position;
-        float distance = heading.magnitude;
-
-        return heading / distance;
+        return Instantiate(_rocketTemplate);
     }
 }

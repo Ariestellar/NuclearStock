@@ -1,64 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class AssaultPolicy : MonoBehaviour
 {
-    [SerializeField] private DataCities _dataCities;
-    [SerializeField] private float _currentTimerCharge;    
+    [SerializeField] private DataCities _dataCities;       
     [SerializeField] private float _timerChargeDefault;
-    [SerializeField] private GameObject _targetAttack;
+    [SerializeField] private GameObject _timerTemp;
 
-    private event DeathHandler _rocketLaunch;
+    private Action<GameObject> _rocketLaunch;
 
-    public delegate void DeathHandler(Transform target);
-    public event DeathHandler RocketLaunch
+    public event Action<GameObject> RocketLaunch
     {
         add => _rocketLaunch += value;
         remove => _rocketLaunch -= value;
     }
 
-    public GameObject TargetAttack => _targetAttack;
-
-
-
-    private void Init()
+    public void Init()
     {
-        _dataCities = FindObjectOfType<DataCities>();
-    }
-
-    private void Awake()
-    {
-        Init();
-    }
-
-    private void Update()
-    {
-        DecreaseChargeTimer();
+        _dataCities = FindObjectOfType<DataCities>();                
     }
 
     public void LaunchTimerCharge()
-    {
-        _currentTimerCharge = _timerChargeDefault;
-    }
+    {        
+        GameObject targetAttack = GetTargetAttack(_dataCities.GetListGeneratedCities);
 
-    private void DecreaseChargeTimer()
-    {
-        if (_currentTimerCharge != 0)
-        {
-            _currentTimerCharge -= Time.deltaTime;
-            if (_currentTimerCharge < 0)
-            {
-                _targetAttack = GetTargetAttack(_dataCities.GetListGeneratedCities);
-                _rocketLaunch?.Invoke(_targetAttack.transform);
-                _currentTimerCharge = 0;
-            }
-        }        
+        var timer = Instantiate(_timerTemp, this.gameObject.transform);
+        timer.GetComponent<Timer>().StartTimer(_timerChargeDefault,() => _rocketLaunch?.Invoke(targetAttack));
     }
 
     private GameObject GetTargetAttack(List<GameObject> listTarget)
-    {        
-        return listTarget[Random.Range(0, listTarget.Count)];
+    {
+        GameObject target;
+        do 
+        {
+            target = listTarget[UnityEngine.Random.Range(0, listTarget.Count)];
+        } 
+        while (target.transform.position == transform.position);
+
+        return target;
     }
 }
