@@ -11,16 +11,16 @@ public class AssaultPolicy : MonoBehaviour
     [SerializeField] private GameObject _timerTemp;
 
     private Action<GameObject> _rocketLaunch;
-
+   
     public event Action<GameObject> RocketLaunch
     {
         add => _rocketLaunch += value;
         remove => _rocketLaunch -= value;
-    }
+    }  
 
-    public void Init()
+    public void Init(DataCities dataCities)
     {
-        _dataCities = FindObjectOfType<DataCities>();                
+        _dataCities = dataCities;                
     }
 
     public void LaunchTimerCharge()

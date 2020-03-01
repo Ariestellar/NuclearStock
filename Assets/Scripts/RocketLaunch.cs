@@ -8,26 +8,47 @@ public class RocketLaunch : MonoBehaviour
     [SerializeField] private GameObject _rocketTemplate;
     [SerializeField] private AssaultPolicy _assaultPolicy;
 
+    private float _flightAltitude;
+    private Vector3 _earth;
     private GameObject _rocket;
 
-    public void Init()
-    { 
+    public void Init(Vector3 earth)
+    {
+        _earth = earth;
         _assaultPolicy = GetComponent<AssaultPolicy>();        
-        _assaultPolicy.RocketLaunch += Launch;
+        _assaultPolicy.RocketLaunch += Launch;        
+        _flightAltitude = Random.Range(5, 25);
     }
 
     private void Launch(GameObject target)
     {
-        _rocket = CreateRocket();        
-        RocketMovement rocketMovement = _rocket.GetComponent<RocketMovement>();        
-        rocketMovement.Init(target, transform.position);
+        _rocket = CreateRocket();
 
-        rocketMovement.RocketHitTarget += _rocket.GetComponent<RocketCondition>().Destruction;
-        rocketMovement.RocketHitTarget += target.GetComponent<CityCondition>().Destruction;
+        _rocket.transform.position = GetDestination(transform.position, _flightAltitude, _earth);
+        Vector3 targetPosition = GetDestination(target.transform.position, _flightAltitude, _earth);
+        
+        _rocket.GetComponent<RocketMovement>().Init(targetPosition, _earth);
+        _rocket.GetComponent<ProximityCheck>().Init(targetPosition);
+
+        _rocket.GetComponent<ProximityCheck>().RocketHitTarget += _rocket.GetComponent<RocketCondition>().Destruction;
+        _rocket.GetComponent<ProximityCheck>().RocketHitTarget += target.GetComponent<CityCondition>().Destruction;
     }
 
     private GameObject CreateRocket()
     {
         return Instantiate(_rocketTemplate);
+    }
+
+    private Vector3 GetDestination(Vector3 cityLocation, float startHeight, Vector3 flightPathPoint)
+    {
+        return cityLocation + GetDirection(cityLocation, flightPathPoint) * startHeight;
+    }
+
+    private Vector3 GetDirection(Vector3 whereTo, Vector3 whereFrom)//Такой же метод в RocketMovement
+    {
+        Vector3 heading = whereTo - whereFrom;
+        float distance = heading.magnitude;
+
+        return heading / distance;
     }
 }
