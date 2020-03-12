@@ -5,41 +5,74 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class AssaultPolicy : MonoBehaviour
-{
-    [SerializeField] private DataCities _dataCities;       
-    [SerializeField] private float _timerChargeDefault;
-    [SerializeField] private GameObject _timerTemp;
+{          
+    [SerializeField] private float _timerChargeDefault; 
+    [SerializeField] private GameObject _timerTemp; 
+    [SerializeField] private List<GameObject> _listTarget;
 
-    private Action<GameObject> _rocketLaunch;
+    private GameObject _timer;
+    private bool _rocketReadiness;
+    private int _amountTargets;
+    private DataCities _dataCities;
+    private Action<List<GameObject>> _rocketLaunch;
    
-    public event Action<GameObject> RocketLaunch
+    public event Action<List<GameObject>> RocketLaunch
     {
         add => _rocketLaunch += value;
         remove => _rocketLaunch -= value;
     }  
 
-    public void Init(DataCities dataCities)
+    public void Init(DataCities dataCities, int amountTargets)
+
     {
-        _dataCities = dataCities;                
+        _dataCities = dataCities;
+        _amountTargets = amountTargets;
+        _rocketReadiness = true;
+        _timer = Instantiate(_timerTemp, this.gameObject.transform);
     }
 
-    public void LaunchTimerCharge()
-    {        
-        GameObject targetAttack = GetTargetAttack(_dataCities.GetListGeneratedCities);
-
-        var timer = Instantiate(_timerTemp, this.gameObject.transform);
-        timer.GetComponent<Timer>().StartTimer(_timerChargeDefault,() => _rocketLaunch?.Invoke(targetAttack));
-    }
-
-    private GameObject GetTargetAttack(List<GameObject> listTarget)
+    public void SendRockets()
     {
-        GameObject target;
-        do 
+        if (_rocketReadiness)
         {
-            target = listTarget[UnityEngine.Random.Range(0, listTarget.Count)];
-        } 
-        while (target.transform.position == transform.position);
+            LaunchTimerCharge();
+            SelectTargets(_amountTargets);
+            _rocketLaunch?.Invoke(_listTarget);            
+            _rocketReadiness = false;
+            _listTarget.Clear();
+        }
+    }
 
+    private void LaunchTimerCharge()
+    {               
+        _timer.GetComponent<Timer>().StartTimer(_timerChargeDefault, ChargeRocket);
+    }
+
+    private GameObject GetTargetAttack(List<GameObject> listCities)
+    {
+        GameObject target = null;
+        if (listCities.Count > 1)
+        {
+            do
+            {
+                target = listCities[UnityEngine.Random.Range(0, listCities.Count)];
+            }
+            while (target.transform.position == transform.position || _listTarget.Contains(target));
+        }
         return target;
     }
+
+    private void ChargeRocket()
+    {
+        _rocketReadiness = true;
+    }
+
+    private void SelectTargets(int amountTargets)
+    {
+        for (int i = 0; i < amountTargets; i++)
+        {
+            GameObject targetAttack = GetTargetAttack(_dataCities.GetListGeneratedCities);
+            _listTarget.Add(targetAttack);
+        }        
+    }    
 }

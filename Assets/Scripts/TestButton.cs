@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class TestButton : MonoBehaviour
 {
-    [SerializeField] private DataCities _dataCities;
-    public void LaunchRocket()
+    [SerializeField] private LevelGenerator _levelGenerator;
+    public void Next()
     {
-        foreach (var citi in _dataCities.GetListGeneratedCities)
-        {
-            citi.GetComponent<AssaultPolicy>().LaunchTimerCharge();
-        }
+        _levelGenerator.PlayNextLevel();
     }
 }

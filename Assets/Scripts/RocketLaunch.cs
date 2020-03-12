@@ -6,8 +6,8 @@ using UnityEngine;
 public class RocketLaunch : MonoBehaviour
 {
     [SerializeField] private GameObject _rocketTemplate;
-    [SerializeField] private AssaultPolicy _assaultPolicy;
 
+    private AssaultPolicy _assaultPolicy;
     private float _flightAltitude;
     private Vector3 _earth;
     private GameObject _rocket;
@@ -20,23 +20,23 @@ public class RocketLaunch : MonoBehaviour
         _flightAltitude = Random.Range(5, 25);
     }
 
-    private void Launch(GameObject target)
+    private void Launch(List<GameObject> listTarget)
     {
-        _rocket = CreateRocket();
-
-        _rocket.transform.position = GetDestination(transform.position, _flightAltitude, _earth);
-        Vector3 targetPosition = GetDestination(target.transform.position, _flightAltitude, _earth);
-        
-        _rocket.GetComponent<RocketMovement>().Init(targetPosition, _earth);
-        _rocket.GetComponent<ProximityCheck>().Init(targetPosition);
-
-        _rocket.GetComponent<ProximityCheck>().RocketHitTarget += _rocket.GetComponent<RocketCondition>().Destruction;
-        _rocket.GetComponent<ProximityCheck>().RocketHitTarget += target.GetComponent<CityCondition>().Destruction;
+        foreach (var target in listTarget)
+        {
+            Vector3 spawnsPosition = GetDestination(transform.position, _flightAltitude, _earth);
+            Vector3 targetPosition = GetDestination(target.transform.position, _flightAltitude, _earth);
+            _rocket = CreateRocket(spawnsPosition);
+            _rocket.GetComponent<RocketMovement>().Init(targetPosition, _earth);
+            _rocket.GetComponent<ProximityCheck>().Init(targetPosition);
+            _rocket.GetComponent<ProximityCheck>().RocketHitTarget += _rocket.GetComponent<RocketCondition>().Destruction;
+            _rocket.GetComponent<ProximityCheck>().RocketHitTarget += target.GetComponent<CityCondition>().Destruction;
+        }        
     }
 
-    private GameObject CreateRocket()
+    private GameObject CreateRocket(Vector3 spawnsPosition)
     {
-        return Instantiate(_rocketTemplate);
+        return Instantiate(_rocketTemplate, spawnsPosition, Quaternion.identity);
     }
 
     private Vector3 GetDestination(Vector3 cityLocation, float startHeight, Vector3 flightPathPoint)
