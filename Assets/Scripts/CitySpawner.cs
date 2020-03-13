@@ -23,9 +23,11 @@ public class CitySpawner : MonoBehaviour
         GameObject city;
         Vector3 positionSpawn = Random.onUnitSphere * earthRadius;
         city = Instantiate(cityTemplate, positionSpawn, Quaternion.identity);        
-        city.GetComponent<RocketLaunch>().Init(transform.position);
-        city.GetComponent<AssaultPolicy>().Init(dataCities, dataCities.AmountTargets);
+        city.GetComponent<RocketLaunch>().Init(dataCities, transform.position);
+        city.GetComponent<TargetFinder>().Init(dataCities, dataCities.AmountTargets);
         city.GetComponent<CityCondition>().Init(dataCities);
+        city.GetComponent<RocketPrep>().Init();
+
         return city;
     }
 }

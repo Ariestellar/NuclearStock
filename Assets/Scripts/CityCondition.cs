@@ -5,6 +5,8 @@ using UnityEngine;
 public class CityCondition : MonoBehaviour
 {
     private DataCities _dataCities;
+    public bool IsСityDestroyed { get; private set; }
+
     public void Init(DataCities dataCities)
     {
         _dataCities = dataCities;
@@ -13,9 +15,9 @@ public class CityCondition : MonoBehaviour
     public void Destruction()
     {
         GetComponent<MeshRenderer>().enabled = false;
-        //GetComponent<RocketLaunch>().enabled = false;
-        //проблема со списком
+        IsСityDestroyed = true;
         _dataCities.ExcludeFromList(this.gameObject);
+        Deleted();
     }
 
     public void Deleted()

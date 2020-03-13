@@ -8,16 +8,19 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private CitySpawner _citySpawner;
     [SerializeField] private int _numberCities;
     [SerializeField] private int _numberRockets;
-    
-    public void PlayNextLevel()
+
+    private DataGame _dataGame;
+   
+    public void CreateNewLevel()
     {
-        ClearLevel();
-        IncreaseNumberCities();
-        _citySpawner.GeneratorCities(_numberCities);
-        FirstLaunchRocket();
+        ClearCurrentLevel();
+        _dataCities.ClearData();
+        _dataGame = DataGame.GetInstance();                
+        _citySpawner.GeneratorCities(_dataGame.GetNumberCity());
+        _dataGame.IncreaseLevel();        
     }
 
-    private void ClearLevel()
+    private void ClearCurrentLevel()
     {
         var cities = _dataCities.GetListGeneratedCities;
         if (cities != null)
@@ -28,18 +31,5 @@ public class LevelGenerator : MonoBehaviour
             }
         }
         cities.Clear();
-    }
-
-    private void FirstLaunchRocket()
-    {
-        foreach (var citi in _dataCities.GetListGeneratedCities)
-        {
-            citi.GetComponent<AssaultPolicy>().SendRockets();
-        }
-    }
-
-    private void IncreaseNumberCities()
-    {
-        _numberCities += 1;
     }
 }

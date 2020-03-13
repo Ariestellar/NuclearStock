@@ -7,6 +7,6 @@ public class TestButton : MonoBehaviour
     [SerializeField] private LevelGenerator _levelGenerator;
     public void Next()
     {
-        _levelGenerator.PlayNextLevel();
+        _levelGenerator.CreateNewLevel();
     }
 }

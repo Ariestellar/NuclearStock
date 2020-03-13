@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4719970372466570453}
   - component: {fileID: -8492955409631269934}
   - component: {fileID: -3394455600127806254}
+  - component: {fileID: -5619423166601798784}
   m_Layer: 0
   m_Name: CityPrototype
   m_TagString: Untagged
@@ -110,7 +111,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rocketTemplate: {fileID: 4765980873279503687, guid: af72f2280dcf36c488581824ecb77d70,
     type: 3}
-  _assaultPolicy: {fileID: 0}
 --- !u!114 &-8492955409631269934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,10 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 386510b325fb6a04dbded380d7a7d601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dataCities: {fileID: 0}
-  _timerChargeDefault: 5
-  _timerTemp: {fileID: 49772808257816050, guid: 1cd41ca03aa6fd84aa2e28b55aecced5,
-    type: 3}
+  _listTarget: []
 --- !u!114 &-3394455600127806254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,3 +136,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97c7f65fe66f3cd4cb714b035b33e41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5619423166601798784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370207089339274643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d97f422c3258604d856c9e5814262c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timerTemp: {fileID: 49772808257816050, guid: 1cd41ca03aa6fd84aa2e28b55aecced5,
+    type: 3}
+  _timerChargeDefault: 3
