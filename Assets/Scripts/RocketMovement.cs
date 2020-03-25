@@ -20,7 +20,7 @@ public class RocketMovement : MonoBehaviour
     {
         _targetPosition  = targetPosition;
         _earth = earth;
-        _speed = UnityEngine.Random.Range(10, 30);
+        _speed = UnityEngine.Random.Range(5, 10);
         _axis = GetAxis(_targetPosition, transform.position);
     }
 

@@ -9,17 +9,17 @@ public class RocketLaunch : MonoBehaviour
 {
     [SerializeField] private GameObject _rocketTemplate;
 
-    private TargetFinder _assaultPolicy;
+    private TargetFinder _targetFinder;
     private RocketPrep _rocketPrep;
     private CityCondition _cityCondition;
     private float _flightAltitude;
     private Vector3 _earth;
-    private DataCities _dataCities; 
+    private DataGame _dataCities; 
 
-    public void Init(DataCities dataCities, Vector3 earth)
+    public void Init(DataGame dataCities, Vector3 earth)
     {
         _earth = earth;
-        _assaultPolicy = GetComponent<TargetFinder>();
+        _targetFinder = GetComponent<TargetFinder>();
         _rocketPrep = GetComponent<RocketPrep>();
         _cityCondition = GetComponent<CityCondition>();
         _dataCities = dataCities;
@@ -30,8 +30,8 @@ public class RocketLaunch : MonoBehaviour
     {
         if (_cityCondition.IsСityDestroyed == false)
         {
-            _assaultPolicy.RefreshList();
-            Launch(_assaultPolicy.GetList());
+            _targetFinder.RefreshList();
+            Launch(_targetFinder.GetList());
             _rocketPrep.StartRocketPreparing();
         }                    
     }

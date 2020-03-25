@@ -4,32 +4,41 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    [SerializeField] private DataCities _dataCities;
+    [SerializeField] private DataGame _dataGame;
     [SerializeField] private CitySpawner _citySpawner;
-    [SerializeField] private int _numberCities;
-    [SerializeField] private int _numberRockets;
+    [SerializeField] private InfoPanel _infoPanel;
 
-    private DataGame _dataGame;
-   
+    private void Start()
+    {
+        NewGame();
+    }
+
+    public void NewGame()
+    {
+        _dataGame.SetDataNewGame();
+        _citySpawner.GeneratorCities(_dataGame.GetNumberCity());        
+        _infoPanel.UpdateValue(_dataGame.CurrentLevel, _dataGame.NumberRocketsCurrentLevel);
+    }
+
     public void CreateNewLevel()
     {
         ClearCurrentLevel();
-        _dataCities.ClearData();
-        _dataGame = DataGame.GetInstance();                
-        _citySpawner.GeneratorCities(_dataGame.GetNumberCity());
-        _dataGame.IncreaseLevel();        
+        _dataGame.ClearData();                     
+        _citySpawner.GeneratorCities(_dataGame.GetNumberCity());          
+        _dataGame.IncreaseLevel();
+        _infoPanel.UpdateValue(_dataGame.CurrentLevel, _dataGame.NumberRocketsCurrentLevel);
     }
 
     private void ClearCurrentLevel()
-    {
-        var cities = _dataCities.GetListGeneratedCities;
-        if (cities != null)
+    {        
+        if (_dataGame.GetListGeneratedCities != null)
         {
+            var cities = _dataGame.GetListGeneratedCities;
             foreach (var city in cities)
             {
                 city.GetComponent<CityCondition>().Deleted();
             }
-        }
-        cities.Clear();
+            cities.Clear();
+        }        
     }
 }

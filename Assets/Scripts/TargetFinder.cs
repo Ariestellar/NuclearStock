@@ -9,9 +9,9 @@ public class TargetFinder : MonoBehaviour
     [SerializeField] private List<GameObject> _listTarget;
 
     private int _amountTargets;
-    private DataCities _dataCities;
+    private DataGame _dataCities;
 
-    public void Init(DataCities dataCities, int amountTargets)
+    public void Init(DataGame dataCities, int amountTargets)
     {
         _dataCities = dataCities;
         _amountTargets = amountTargets;       

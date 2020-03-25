@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RocketCondition : MonoBehaviour
 {
-    private DataCities _dataCities;
+    private DataGame _dataCities;
 
-    public void Init(DataCities dataCities)
+    public void Init(DataGame dataCities)
     {
         _dataCities = dataCities;
     }
