@@ -1157,7 +1157,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1231,7 +1231,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &963194229
+--- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1240,10 +1240,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 375fca509ebc37a409159bd6721cbc4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1954524189bb9ae46801feff5743cd2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetEarth: {fileID: 758681999}
+  target: {fileID: 758681999}
+  distance: 500
+  xSpeed: 0.01
+  ySpeed: 0.01
+  yMinLimit: -360
+  yMaxLimit: 360
+  distanceMin: 250
+  distanceMax: 500
+  smoothTime: 2
+  rotationYAxis: 0
+  rotationXAxis: 0
+  velocityX: 0
+  velocityY: 0
 --- !u!1 &978789464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1967,7 +1979,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592996221}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce733051a7b194281b561740f71a43e5, type: 3}
   m_Name: 

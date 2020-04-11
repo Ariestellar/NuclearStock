@@ -67,11 +67,11 @@ public class DataGame : MonoBehaviour
     public void SetDataNewGame()
     {
         _amountTargets = 1;//количество одновременных целей из одного города        
-        _rocketHitLimit = 1;//лимит ракет для попадания
+        _rocketHitLimit = 10;//лимит ракет для попадания
         _rocketsLimit = 2;//общий лимит ракет для запуска из всех городов    
         _currentLevel = 1;//текущий уровень
         _numberRocketsCurrentLevel = _rocketsLimit; // колличество невыпущенных ракет
-        _numberCity = 2; //количество заспавненных городов
+        _numberCity = 2; //количество заспавненных городов 2
     }
 
     public void IncreaseRocketHitTarget()
